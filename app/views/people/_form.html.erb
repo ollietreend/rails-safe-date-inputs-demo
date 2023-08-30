@@ -1,0 +1,56 @@
+<%= form_with(model: person) do |form| %>
+  <% if person.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(person.errors.count, "error") %> prohibited this person from being saved:</h2>
+
+      <ul>
+        <% person.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+<%
+  # <div>
+    # <%= form.label :date_of_birth, style: "display: block" % >
+    # <%= form.date_select :date_of_birth, start_year: 1990, end_year: 2000, include_blank: true % >
+  # </div>
+%>
+
+  <%= render "govuk_publishing_components/components/date_input", {
+    legend_text: "Date of birth",
+    hint: "Hint text",
+    id: "date_of_birth",
+    error_items: [],
+    items: [
+      {
+        label: "Day",
+        name: "person[date_of_birth(3i)]",
+        width: 2,
+        value: params.dig("person", "date_of_birth(3i)") || person.date_of_birth&.day,
+      },
+      {
+        label: "Month",
+        name: "person[date_of_birth(2i)]",
+        width: 2,
+        value: params.dig("person", "date_of_birth(2i)") || person.date_of_birth&.month,
+      },
+      {
+        label: "Year",
+        name: "person[date_of_birth(1i)]",
+        width: 4,
+        value: params.dig("person", "date_of_birth(1i)") || person.date_of_birth&.year,
+      }
+    ]
+  } %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
