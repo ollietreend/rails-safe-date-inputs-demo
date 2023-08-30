@@ -3,4 +3,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+
+  mount GovukPublishingComponents::Engine, at: "/component-guide" if Rails.env.development?
 end
